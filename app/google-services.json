@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "677745449200",
+    "firebase_url": "https://scrimp-33075.firebaseio.com",
+    "project_id": "scrimp-33075",
+    "storage_bucket": "scrimp-33075.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677745449200:android:079bc0f6d234d9c4",
+        "android_client_info": {
+          "package_name": "com.scrimpapp.scrimp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677745449200-b5ie7irj5h1ommau74vbslar78pg13j7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scrimpapp.scrimp",
+            "certificate_hash": "9b425253d0c0587f73ecdfa0445e1664e282d504"
+          }
+        },
+        {
+          "client_id": "677745449200-lsrrnm7jk9e75jj1c9ep17jghfq7f56t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJRIzCJi72mCDda--qamz1XghBHR8GHgg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677745449200-lsrrnm7jk9e75jj1c9ep17jghfq7f56t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
