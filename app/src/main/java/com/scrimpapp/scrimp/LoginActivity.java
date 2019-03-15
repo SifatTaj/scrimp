@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    i.putExtra("userId",FirebaseAuth.getInstance().getCurrentUser().getUid());
                     startActivity(i);
                 }
                 else {
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser() != null) {
             Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            i.putExtra("userId",FirebaseAuth.getInstance().getCurrentUser().getUid());
             startActivity(i);
         }
     }

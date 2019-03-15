@@ -138,9 +138,11 @@ public class SignupActivity extends AppCompatActivity {
                             userMap.put("phone", phone);
                             userMap.put("bracu_id", bracuId);
 
-                            FirebaseFirestore.getInstance().collection("users").add(userMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            FirebaseFirestore.getInstance().collection("users")
+                                    .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(userMap)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful())
                                         Toast.makeText(SignupActivity.this, "Account successfully created", Toast.LENGTH_LONG).show();
                                 }
