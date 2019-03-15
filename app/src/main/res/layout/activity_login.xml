@@ -6,78 +6,85 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:scrollbarSize="0dp">
 
-        <ImageView
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            android:id="@+id/imageView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="206dp"
-            app:srcCompat="@drawable/ic_scrimp_logo" />
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etEmailLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/text_input_border"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="206dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="50dp"
+                app:srcCompat="@drawable/ic_scrimp_logo" />
 
-        <EditText
-            android:id="@+id/etPasswordLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/text_input_border"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp" />
+            <EditText
+                android:id="@+id/etEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/text_input_border"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp" />
 
-        <Button
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:id="@+id/btLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:paddingLeft="57dp"
-            android:paddingRight="57dp"
-            android:text="Login"
-            android:textAllCaps="false"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/etPasswordLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/text_input_border"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp" />
 
-        <Button
-            android:id="@+id/btSignUpPageFromLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_input_border"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
-            android:text="Sign-up"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold" />
+            <Button
+                android:id="@+id/btLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/button_background"
+                android:paddingLeft="57dp"
+                android:paddingRight="57dp"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="@color/common_google_signin_btn_text_dark_default"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btSignUpPageFromLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_input_border"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:text="Sign-up"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
 
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 </RelativeLayout>

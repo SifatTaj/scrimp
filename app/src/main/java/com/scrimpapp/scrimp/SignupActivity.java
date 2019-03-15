@@ -8,11 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.scrimpapp.scrimp.models.User;
 
@@ -135,7 +138,18 @@ public class SignupActivity extends AppCompatActivity {
                             userMap.put("phone", phone);
                             userMap.put("bracu_id", bracuId);
 
-                            FirebaseFirestore.getInstance().collection("users").add(userMap);
+                            FirebaseFirestore.getInstance().collection("users").add(userMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if(task.isSuccessful())
+                                        Toast.makeText(SignupActivity.this, "Account successfully created", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                        else if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            etEmail.setError(getString(R.string.input_error_email_already_registered));
+                            etEmail.requestFocus();
+                            return;
                         }
                     }
                 }
