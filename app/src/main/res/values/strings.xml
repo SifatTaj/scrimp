@@ -11,4 +11,5 @@
     <string name="input_error_email_invalid">Enter a valid email</string>
     <string name="input_error_email_already_registered">Email already registered</string>
     <string name="input_error_bracu_id">Enter a valid Bracu id</string>
+    <string name="title_activity_home">Map</string>
 </resources>
