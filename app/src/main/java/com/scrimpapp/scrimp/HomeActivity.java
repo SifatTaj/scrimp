@@ -2,11 +2,13 @@ package com.scrimpapp.scrimp;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -14,11 +16,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Marker marker;
+    private TextView tvLatLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        tvLatLng = findViewById(R.id.tvLatLng);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -38,9 +43,17 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(23.780281, 90.407151);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15F));
+        final LatLng bracu = new LatLng(23.780281, 90.407151);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bracu, 15F));
+        marker = mMap.addMarker(new MarkerOptions().position(bracu));
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                LatLng markerPosition = mMap.getCameraPosition().target;
+                marker.setPosition(markerPosition);//to center in map
+                tvLatLng.setText("" + markerPosition.latitude + ", " + markerPosition.longitude);
+            }
+        });
     }
 }
