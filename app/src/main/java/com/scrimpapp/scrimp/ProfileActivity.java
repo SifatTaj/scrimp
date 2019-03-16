@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -25,6 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseFirestore mFirestore;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase mFirebaseDB;
 
     @Override
     protected void onStart() {
@@ -32,9 +34,12 @@ public class ProfileActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser() == null) {
             startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
         }
-        else {
-            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        }
+    }
+
+    private void setUserOnline(String userId) {
+        mFirestore.collection("users").document(userId).update("online", true);
+        mFirebaseDB.getReference("status/" + userId).setValue("online");
+        mFirebaseDB.getReference("/status/" + userId).onDisconnect().setValue("offline");
     }
 
     @Override
@@ -52,6 +57,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         mFirestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseDB = FirebaseDatabase.getInstance();
+
+        setUserOnline(userId);
 
         DocumentReference docRef = mFirestore.collection("users").document(userId);
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {

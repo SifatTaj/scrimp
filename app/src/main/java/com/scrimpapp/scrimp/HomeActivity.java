@@ -46,12 +46,12 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         final LatLng bracu = new LatLng(23.780281, 90.407151);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bracu, 15F));
-        marker = mMap.addMarker(new MarkerOptions().position(bracu));
+//        marker = mMap.addMarker(new MarkerOptions().position(bracu));
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
                 LatLng markerPosition = mMap.getCameraPosition().target;
-                marker.setPosition(markerPosition);//to center in map
+//                marker.setPosition(markerPosition);//to center in map
                 tvLatLng.setText("" + markerPosition.latitude + ", " + markerPosition.longitude);
             }
         });
