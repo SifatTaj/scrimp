@@ -59,7 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDB = FirebaseDatabase.getInstance();
 
-        setUserOnline(userId);
+//        setUserOnline(userId);
 
         DocumentReference docRef = mFirestore.collection("users").document(userId);
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
