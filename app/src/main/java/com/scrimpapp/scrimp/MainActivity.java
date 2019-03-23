@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         btSubscriber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
                 startActivity(i);
             }
         });
