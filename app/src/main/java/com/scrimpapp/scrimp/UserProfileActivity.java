@@ -6,8 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,7 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserProfileActivity extends AppCompatActivity {
 
     CircleImageView dpImage;
-    String dpUrl;
+    ImageView idImage;
 
     FirebaseAuth mAuth;
     FirebaseFirestore mFirebaseFirestore;
@@ -41,6 +41,7 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         dpImage = findViewById(R.id.profileImage);
+        idImage = findViewById(R.id.idImage);
 
         tvName = findViewById(R.id.tvUserProfileName);
         tvPhone = findViewById(R.id.tvUserProfilePhone);
@@ -64,8 +65,11 @@ public class UserProfileActivity extends AppCompatActivity {
                     tvEmail.setText(documentSnapshot.getString("email"));
                     tvBracuId.setText(documentSnapshot.getString("bracu_id"));
 
-                    dpUrl = documentSnapshot.getString("dp_url");
+                    String dpUrl = documentSnapshot.getString("dp_url");
                     new DpLoader(getApplicationContext(), dpImage).execute(dpUrl);
+
+                    String idUrl = documentSnapshot.getString("id_url");
+                    new NetworkImageLoader(getApplicationContext(), idImage).execute(idUrl);
 
                 }
             }
@@ -104,6 +108,39 @@ class DpLoader extends AsyncTask<String, Void, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
         profileImage.setImageBitmap(bitmap);
+    }
+}
+
+class NetworkImageLoader extends AsyncTask<String, Void, Bitmap> {
+
+    final Context context;
+    final ImageView imageView;
+
+    NetworkImageLoader(Context context, ImageView profileImage) {
+        this.context = context;
+        this.imageView = profileImage;
+    }
+
+    @Override
+    protected Bitmap doInBackground(String... src) {
+        try {
+            URL url = new URL(src[0]);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+//            Toast.makeText(context, "Could not load profile image", Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        super.onPostExecute(bitmap);
+        imageView.setImageBitmap(bitmap);
     }
 }
 

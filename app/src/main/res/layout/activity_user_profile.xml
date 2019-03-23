@@ -17,6 +17,7 @@
         android:background="@drawable/text_input_border">
 
         <LinearLayout
+            android:id="@+id/infoLayout"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="80dp"
             android:layout_width="match_parent"
@@ -118,6 +119,16 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:id="@+id/idImage"
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
     </RelativeLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -128,6 +139,6 @@
         android:layout_height="120dp"
         android:src="@drawable/profile_placeholder"
         app:civ_border_color="@color/colorPrimary"
-        app:civ_border_width="1dp" />
+        app:civ_border_width="5dp" />
 
 </RelativeLayout>
