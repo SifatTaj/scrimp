@@ -4,7 +4,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -22,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.scrimpapp.scrimp.util.LobbyListAdapter;
 import com.scrimpapp.scrimp.util.ResultDialog;
 
 import java.util.ArrayList;
@@ -42,7 +45,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FirebaseFirestore mFirestore;
     private FirebaseDatabase mFirebaseDB;
     private FirebaseAuth mAuth;
-    private List<String> matchesList;
+
+    public List<String> matchesList;
+    public List<String> nameList;
+    public List<String> idList;
+    public List<String> imgList;
+    public static LobbyListAdapter lobbyListAdapter;
 
 
     private String userId;
@@ -54,6 +62,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double higherLat = 0.0;
     private double higherLng = 0.0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +73,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         rippleAnimation = findViewById(R.id.ripple_animation);
 
         matchesList = new ArrayList<>();
+        nameList = new ArrayList<>();
+        idList = new ArrayList<>();
+        imgList = new ArrayList();
+
+        lobbyListAdapter = new LobbyListAdapter(this, nameList, idList, imgList);
 
         mFirestore = FirebaseFirestore.getInstance();
         mFirebaseDB = FirebaseDatabase.getInstance();
@@ -143,6 +157,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                     if(doc.getDocument().getBoolean("online")) {
                                         matchesList.add(doc.getDocument().getString("user_id"));
+                                        nameList.add(doc.getDocument().getString("name"));
+                                        idList.add(doc.getDocument().getString("bracu_id"));
+                                        imgList.add(doc.getDocument().getString("dp_url"));
+                                        lobbyListAdapter.notifyDataSetChanged();
                                         tvMatches.setText(matchesList.size() + " found");
                                     }
                                     else if (!doc.getDocument().getBoolean("online")){
@@ -165,16 +183,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

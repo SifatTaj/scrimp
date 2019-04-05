@@ -6,16 +6,43 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import com.scrimpapp.scrimp.HomeActivity;
+
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.scrimpapp.scrimp.R;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class ResultDialog extends AppCompatDialogFragment {
-    private EditText editTextUsername;
-    private EditText editTextPassword;
+
+
+    String[] nameArray = {"Octopus","Pig","Sheep","Rabbit" };
+
+    String[] infoArray = {
+            "16108576",
+            "16108576",
+            "16108576",
+            "16108576",
+    };
+
+    Integer[] imageArray = {
+            R.drawable.profile_placeholder,
+            R.drawable.profile_placeholder,
+            R.drawable.profile_placeholder,
+            R.drawable.profile_placeholder,
+    };
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -35,13 +62,15 @@ public class ResultDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String username = editTextUsername.getText().toString();
-                        String password = editTextPassword.getText().toString();
+
+                    }
+                })
+                .setAdapter(HomeActivity.lobbyListAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
                     }
                 });
-
-        editTextUsername = view.findViewById(R.id.edit_username);
-        editTextPassword = view.findViewById(R.id.edit_password);
 
         return builder.create();
     }
