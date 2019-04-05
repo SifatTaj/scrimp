@@ -1,30 +1,27 @@
 package com.scrimpapp.scrimp;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,16 +30,19 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class HomeActivity extends FragmentActivity implements OnMapReadyCallback {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Marker marker;
     private TextView tvLatLng, tvMatches;
+    private Button btSetDest;
+    private LottieAnimationView rippleAnimation;
+
     private FirebaseFirestore mFirestore;
     private FirebaseDatabase mFirebaseDB;
     private FirebaseAuth mAuth;
     private List<String> matchesList;
-    private Button btSetDest;
+
 
     private String userId;
     private GeoPoint userDest;
@@ -59,6 +59,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         tvLatLng = findViewById(R.id.tvLatLng);
         tvMatches = findViewById(R.id.tvNoOfMatches);
         btSetDest = findViewById(R.id.btSetDest);
+        rippleAnimation = findViewById(R.id.ripple_animation);
 
         matchesList = new ArrayList<>();
 
@@ -80,6 +81,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
                 lowerLng = userDest.getLongitude() - .003;
                 higherLng = userDest.getLongitude() + .003;
                 matchMaking();
+                rippleAnimation.setVisibility(View.VISIBLE);
+                rippleAnimation.playAnimation();
             }
         });
 
