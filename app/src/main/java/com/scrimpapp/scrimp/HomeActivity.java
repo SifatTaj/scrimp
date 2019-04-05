@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.scrimpapp.scrimp.util.ResultDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private String userId;
     private GeoPoint userDest;
+    private boolean searching = false;
 
     private double lowerLat = 0.0;
     private double lowerLng = 0.0;
@@ -72,17 +74,30 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         btSetDest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUserOnline(userId);
-                Map<String, GeoPoint> dest = new HashMap();
-                dest.put("dest_geopoint", userDest);
-                mFirestore.collection("users").document(userId).update("dest_geopoint", userDest);
-                lowerLat = userDest.getLatitude() - .003;
-                higherLat = userDest.getLatitude() + .003;
-                lowerLng = userDest.getLongitude() - .003;
-                higherLng = userDest.getLongitude() + .003;
-                matchMaking();
-                rippleAnimation.setVisibility(View.VISIBLE);
-                rippleAnimation.playAnimation();
+                if(!searching) {
+                    setUserOnline(userId);
+                    Map<String, GeoPoint> dest = new HashMap();
+                    dest.put("dest_geopoint", userDest);
+                    mFirestore.collection("users").document(userId).update("dest_geopoint", userDest);
+                    lowerLat = userDest.getLatitude() - .006;
+                    higherLat = userDest.getLatitude() + .006;
+                    lowerLng = userDest.getLongitude() - .006;
+                    higherLng = userDest.getLongitude() + .006;
+                    matchMaking();
+                    rippleAnimation.setVisibility(View.VISIBLE);
+                    rippleAnimation.playAnimation();
+                    searching = true;
+                    btSetDest.setText("Cancel");
+                    openDialog();
+                }
+                else {
+                    searching = false;
+                    btSetDest.setText("Set Destination");
+                    rippleAnimation.cancelAnimation();
+                    rippleAnimation.setVisibility(View.GONE);
+                    matchesList.clear();
+                    tvMatches.setText("0 found");
+                }
             }
         });
 
@@ -96,6 +111,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFirestore.collection("users").document(userId).update("online", true);
         mFirebaseDB.getReference("status/" + userId).setValue("online");
         mFirebaseDB.getReference("/status/" + userId).onDisconnect().setValue("offline");
+    }
+
+    public void openDialog() {
+        ResultDialog exampleDialog = new ResultDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
     }
 
     private void matchMaking() {
