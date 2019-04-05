@@ -1,9 +1,7 @@
 package com.scrimpapp.scrimp;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import com.scrimpapp.scrimp.util.DpLoader;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -15,11 +13,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.scrimpapp.scrimp.util.NetworkImageLoader;
 
 import javax.annotation.Nullable;
 
@@ -75,72 +69,6 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-    }
-}
-
-class DpLoader extends AsyncTask<String, Void, Bitmap> {
-
-    final Context context;
-    final CircleImageView profileImage;
-
-    DpLoader(Context context, CircleImageView profileImage) {
-        this.context = context;
-        this.profileImage = profileImage;
-    }
-
-    @Override
-    protected Bitmap doInBackground(String... src) {
-        try {
-            URL url = new URL(src[0]);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-//            Toast.makeText(context, "Could not load profile image", Toast.LENGTH_LONG).show();
-            return null;
-        }
-    }
-
-    @Override
-    protected void onPostExecute(Bitmap bitmap) {
-        super.onPostExecute(bitmap);
-        profileImage.setImageBitmap(bitmap);
-    }
-}
-
-class NetworkImageLoader extends AsyncTask<String, Void, Bitmap> {
-
-    final Context context;
-    final ImageView imageView;
-
-    NetworkImageLoader(Context context, ImageView profileImage) {
-        this.context = context;
-        this.imageView = profileImage;
-    }
-
-    @Override
-    protected Bitmap doInBackground(String... src) {
-        try {
-            URL url = new URL(src[0]);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-//            Toast.makeText(context, "Could not load profile image", Toast.LENGTH_LONG).show();
-            return null;
-        }
-    }
-
-    @Override
-    protected void onPostExecute(Bitmap bitmap) {
-        super.onPostExecute(bitmap);
-        imageView.setImageBitmap(bitmap);
     }
 }
 
