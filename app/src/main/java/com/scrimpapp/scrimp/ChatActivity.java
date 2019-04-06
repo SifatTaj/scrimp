@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.SetOptions;
 import com.scrimpapp.scrimp.model.ChatInfo;
 import com.scrimpapp.scrimp.util.ChatBubbleAdapter;
@@ -39,8 +40,8 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseFirestore firestore;
 
     String chatRoomId;
+    String senderName;
     int i = 1;
-    boolean hasChatRoom;
     String userId;
     DocumentReference chatDoc;
 
@@ -57,27 +58,28 @@ public class ChatActivity extends AppCompatActivity {
         lvChats = findViewById(R.id.lvChat);
         btSend = findViewById(R.id.btSendChat);
 
+
         firestore = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-
-        membersId = HomeActivity.matchesList;
-
         userId = mAuth.getCurrentUser().getUid();
 
         chatInfos = new ArrayList<>();
 
+        membersId = HomeActivity.matchesList;
+
+        senderName = HomeActivity.userDisplayName;
 
         chatBubbleAdapter = new ChatBubbleAdapter(this, chatInfos);
         lvChats.setAdapter(chatBubbleAdapter);
 
-        subscribeToChatRoom();
         subscribeToChatRoom();
 
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Map<String, Object> sendChatInfo = new HashMap<String, Object>();
-                sendChatInfo.put("name", mAuth.getCurrentUser().getUid());
+                sendChatInfo.put("name", senderName);
+                sendChatInfo.put("user_id", userId);
                 sendChatInfo.put("msg", etChatBox.getText().toString());
 
                 Map<String, Object> send = new HashMap<String, Object>();
@@ -101,16 +103,16 @@ public class ChatActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     chatRoomId = task.getResult().getString("chat_room");
                     if (!chatRoomId.equalsIgnoreCase("")) {
-                        chatDoc = FirebaseFirestore.getInstance().collection("chat").document(chatRoomId);
+                        chatDoc = firestore.collection("chat").document(chatRoomId);
                         chatDoc.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                             @Override
                             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                                 if (documentSnapshot != null) {
                                     for (; i <= documentSnapshot.getData().size(); ++i) {
-                                        Log.e("data", "" + documentSnapshot.getData());
                                         String msg = documentSnapshot.getString(i + ".msg");
+                                        String user = documentSnapshot.getString(i + ".user_id");
                                         String name = documentSnapshot.getString(i + ".name");
-                                        chatInfos.add(new ChatInfo(msg, "", name, false));
+                                        chatInfos.add(new ChatInfo(msg, user, name, user.equalsIgnoreCase(userId)));
                                         chatBubbleAdapter.notifyDataSetChanged();
                                     }
                                 }

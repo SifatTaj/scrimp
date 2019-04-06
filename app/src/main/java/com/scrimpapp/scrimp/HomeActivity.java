@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.scrimpapp.scrimp.util.LobbyListAdapter;
@@ -44,6 +45,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static FirebaseFirestore mFirestore;
     public static FirebaseDatabase mFirebaseDB;
     public static FirebaseAuth mAuth;
+
+    public static String userDisplayName;
 
     public static List<String> matchesList;
     public List<String> nameList;
@@ -81,6 +84,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mFirestore = FirebaseFirestore.getInstance();
         mFirebaseDB = FirebaseDatabase.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        mFirestore.setFirestoreSettings(settings);
         mAuth = FirebaseAuth.getInstance();
 
         userId = mAuth.getCurrentUser().getUid();
@@ -137,7 +144,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setUserOffline(String userId) {
-        mFirestore.collection("users").document(userId).update("offline", true);
+        mFirestore.collection("users").document(userId).update("online", false);
         mFirebaseDB.getReference("status/" + userId).setValue("offline");
         mFirebaseDB.getReference("/status/" + userId).onDisconnect().setValue("offline");
     }
@@ -193,6 +200,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                 }
                             }
+                            else
+                                userDisplayName = doc.getDocument().getString("name");
                         } catch (NullPointerException ne) {
                             ne.printStackTrace();
                         }
