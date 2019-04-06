@@ -15,7 +15,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.scrimpapp.scrimp.models.User;
+import com.scrimpapp.scrimp.model.User;
 
 import java.util.HashMap;
 import java.util.Map;

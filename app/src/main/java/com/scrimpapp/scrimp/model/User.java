@@ -1,4 +1,4 @@
-package com.scrimpapp.scrimp.models;
+package com.scrimpapp.scrimp.model;
 
 public class User {
     String name;
