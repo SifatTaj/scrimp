@@ -88,6 +88,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 if(!searching) {
                     setUserOnline(userId);
+                    tvMatches.setVisibility(View.VISIBLE);
                     Map<String, GeoPoint> dest = new HashMap();
                     dest.put("dest_geopoint", userDest);
                     mFirestore.collection("users").document(userId).update("dest_geopoint", userDest);
@@ -111,7 +112,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     imgList.clear();
                     idList.clear();
                     setUserOffline(userId);
-                    tvMatches.setText("0 found");
+                    tvMatches.setVisibility(View.INVISIBLE);
+                    tvMatches.setText("Searching");
                 }
             }
         });
@@ -168,7 +170,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         idList.add(doc.getDocument().getString("bracu_id"));
                                         imgList.add(doc.getDocument().getString("dp_url"));
                                         lobbyListAdapter.notifyDataSetChanged();
-                                        tvMatches.setText(matchesList.size() + " found");
+                                        tvMatches.setText(matchesList.size() != 0 ? matchesList.size() + " found" : "Searching");
                                         showLobby();
                                     }
                                     else if (!doc.getDocument().getBoolean("online")){
@@ -179,7 +181,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                                             idList.remove(doc.getDocument().getString("bracu_id"));
                                             imgList.remove(doc.getDocument().getString("dp_url"));
                                             lobbyListAdapter.notifyDataSetChanged();
-                                            tvMatches.setText(matchesList.size() + " found");
+                                            tvMatches.setText(matchesList.size() != 0 ? matchesList.size() + " found" : "Searching");
                                         }
                                     }
 

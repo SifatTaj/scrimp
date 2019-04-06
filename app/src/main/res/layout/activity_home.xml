@@ -39,6 +39,20 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:background="@drawable/text_input_border"
+        android:visibility="invisible"
+        android:textColor="@color/colorPrimary"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:layout_below="@+id/searchBarContainer"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tvNoOfMatches"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Searching"/>
+
     <RelativeLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -71,12 +85,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="30dp"
             android:text="lat, lng" />
-
-        <TextView
-            android:id="@+id/tvNoOfMatches"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="No Match Found"/>
 
 
         <ImageView
