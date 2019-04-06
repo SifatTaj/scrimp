@@ -39,12 +39,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView tvLatLng, tvMatches;
     private Button btSetDest;
     private LottieAnimationView rippleAnimation;
+    private LottieAnimationView searchingAnimation;
 
-    private FirebaseFirestore mFirestore;
-    private FirebaseDatabase mFirebaseDB;
-    private FirebaseAuth mAuth;
+    public static FirebaseFirestore mFirestore;
+    public static FirebaseDatabase mFirebaseDB;
+    public static FirebaseAuth mAuth;
 
-    public List<String> matchesList;
+    public static List<String> matchesList;
     public List<String> nameList;
     public List<String> idList;
     public List<String> imgList;
@@ -69,6 +70,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         tvMatches = findViewById(R.id.tvNoOfMatches);
         btSetDest = findViewById(R.id.btSetDest);
         rippleAnimation = findViewById(R.id.ripple_animation);
+        searchingAnimation = findViewById(R.id.search_animation);
 
         matchesList = new ArrayList<>();
         nameList = new ArrayList<>();
@@ -97,8 +99,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     lowerLng = userDest.getLongitude() - .006;
                     higherLng = userDest.getLongitude() + .006;
                     matchMaking();
+                    searchingAnimation.setVisibility(View.VISIBLE);
                     rippleAnimation.setVisibility(View.VISIBLE);
                     rippleAnimation.playAnimation();
+                    searchingAnimation.playAnimation();
                     searching = true;
                     btSetDest.setText("Cancel");
                 }
@@ -106,6 +110,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     searching = false;
                     btSetDest.setText("Set Destination");
                     rippleAnimation.cancelAnimation();
+                    searchingAnimation.cancelAnimation();
+                    searchingAnimation.setVisibility(View.GONE);
                     rippleAnimation.setVisibility(View.GONE);
                     matchesList.clear();
                     nameList.clear();

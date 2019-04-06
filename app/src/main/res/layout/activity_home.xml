@@ -112,6 +112,16 @@
             app:lottie_loop="true"
             app:lottie_autoPlay="false"/>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/search_animation"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_rawRes="@raw/searching"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="false"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
