@@ -4,9 +4,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -102,7 +100,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     rippleAnimation.playAnimation();
                     searching = true;
                     btSetDest.setText("Cancel");
-                    openDialog();
                 }
                 else {
                     searching = false;
@@ -110,6 +107,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     rippleAnimation.cancelAnimation();
                     rippleAnimation.setVisibility(View.GONE);
                     matchesList.clear();
+                    nameList.clear();
+                    imgList.clear();
+                    idList.clear();
+                    setUserOffline(userId);
                     tvMatches.setText("0 found");
                 }
             }
@@ -127,7 +128,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFirebaseDB.getReference("/status/" + userId).onDisconnect().setValue("offline");
     }
 
-    public void openDialog() {
+    private void setUserOffline(String userId) {
+        mFirestore.collection("users").document(userId).update("offline", true);
+        mFirebaseDB.getReference("status/" + userId).setValue("offline");
+        mFirebaseDB.getReference("/status/" + userId).onDisconnect().setValue("offline");
+    }
+
+    public void showLobby() {
         ResultDialog exampleDialog = new ResultDialog();
         exampleDialog.show(getSupportFragmentManager(), "example dialog");
     }
@@ -138,7 +145,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 for(DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
-                    if(doc.getType() == DocumentChange.Type.ADDED | doc.getType() == DocumentChange.Type.MODIFIED) {
+                    if((doc.getType() == DocumentChange.Type.ADDED | doc.getType() == DocumentChange.Type.MODIFIED) & searching) {
 
                         try {
                             if(!doc.getDocument().getString("user_id").equals(userId)) {
@@ -155,17 +162,23 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                 if((matchDest.getLatitude() < higherLat & matchDest.getLatitude() > lowerLat) & (matchDest.getLongitude() < higherLng & matchDest.getLongitude() > lowerLng)) {
 
-                                    if(doc.getDocument().getBoolean("online")) {
+                                    if(doc.getDocument().getBoolean("online") & !matchesList.contains(doc.getDocument().getString("user_id"))) {
                                         matchesList.add(doc.getDocument().getString("user_id"));
                                         nameList.add(doc.getDocument().getString("name"));
                                         idList.add(doc.getDocument().getString("bracu_id"));
                                         imgList.add(doc.getDocument().getString("dp_url"));
                                         lobbyListAdapter.notifyDataSetChanged();
                                         tvMatches.setText(matchesList.size() + " found");
+                                        showLobby();
                                     }
                                     else if (!doc.getDocument().getBoolean("online")){
-                                        if(matchesList.contains(doc.getDocument().getString("user_id"))) {
-                                            matchesList.remove(doc.getDocument().getString("user_id"));
+                                        String offlineId = doc.getDocument().getString("user_id");
+                                        if(matchesList.contains(offlineId)) {
+                                            matchesList.remove(offlineId);
+                                            nameList.remove(doc.getDocument().getString("name"));
+                                            idList.remove(doc.getDocument().getString("bracu_id"));
+                                            imgList.remove(doc.getDocument().getString("dp_url"));
+                                            lobbyListAdapter.notifyDataSetChanged();
                                             tvMatches.setText(matchesList.size() + " found");
                                         }
                                     }
