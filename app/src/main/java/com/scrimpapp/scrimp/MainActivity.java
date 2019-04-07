@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         btChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ChatActivity.class));
+                startActivity(new Intent(getApplicationContext(), UploadPicActivity.class));
             }
         });
 

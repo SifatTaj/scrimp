@@ -78,7 +78,7 @@
                 android:background="@drawable/text_input_border"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="Sign-up"
+                android:text="Sign Up"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />

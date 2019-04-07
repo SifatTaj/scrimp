@@ -3,7 +3,11 @@ package com.scrimpapp.scrimp;
 import com.scrimpapp.scrimp.util.DpLoader;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +32,7 @@ public class UserProfileActivity extends AppCompatActivity {
     FirebaseFirestore mFirebaseFirestore;
 
     TextView tvName, tvPhone, tvEmail, tvBracuId;
+    Button btLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +46,23 @@ public class UserProfileActivity extends AppCompatActivity {
         tvPhone = findViewById(R.id.tvUserProfilePhone);
         tvEmail = findViewById(R.id.tvUserProfileEmail);
         tvBracuId = findViewById(R.id.tvUserProfileBracuId);
+        btLogout = findViewById(R.id.btLogout);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseFirestore = FirebaseFirestore.getInstance();
 
-        String userId = mAuth.getCurrentUser().getUid();
+        Intent intent = getIntent();
+        String userId = intent.getStringExtra("userId");
+
+        String currentUserId = mAuth.getCurrentUser().getUid();
+
+        btLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+        });
 
         DocumentReference userInfo = mFirebaseFirestore.collection("users").document(userId);
 

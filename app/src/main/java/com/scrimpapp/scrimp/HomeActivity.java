@@ -1,7 +1,12 @@
 package com.scrimpapp.scrimp;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,15 +19,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.scrimpapp.scrimp.util.DpLoader;
 import com.scrimpapp.scrimp.util.LobbyListAdapter;
 import com.scrimpapp.scrimp.util.ResultDialog;
 
@@ -39,6 +49,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Marker marker;
     private TextView tvLatLng, tvMatches;
     private Button btSetDest;
+    private CircleImageView homeDP;
+
     private LottieAnimationView rippleAnimation;
     private LottieAnimationView searchingAnimation;
 
@@ -74,6 +86,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         btSetDest = findViewById(R.id.btSetDest);
         rippleAnimation = findViewById(R.id.ripple_animation);
         searchingAnimation = findViewById(R.id.search_animation);
+        homeDP = findViewById(R.id.homeDP);
 
         matchesList = new ArrayList<>();
         nameList = new ArrayList<>();
@@ -91,6 +104,30 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mAuth = FirebaseAuth.getInstance();
 
         userId = mAuth.getCurrentUser().getUid();
+
+        mFirestore.collection("users").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                String dpUrl = task.getResult().getString("dp_url");
+                new DpLoader(getApplicationContext(), homeDP).execute(dpUrl);
+            }
+        });
+
+        homeDP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
+
+        tvMatches.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLobby();
+            }
+        });
 
         btSetDest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,7 +197,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 for(DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
 
-                    if((doc.getType() == DocumentChange.Type.ADDED | doc.getType() == DocumentChange.Type.MODIFIED) & searching) {
+                    if((doc.getType() == DocumentChange.Type.ADDED | doc.getType() == DocumentChange.Type.MODIFIED) & searching & matchesList.size() <= 4) {
 
                         try {
                             if(!doc.getDocument().getString("user_id").equals(userId)) {
@@ -184,6 +221,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         imgList.add(doc.getDocument().getString("dp_url"));
                                         lobbyListAdapter.notifyDataSetChanged();
                                         tvMatches.setText(matchesList.size() != 0 ? matchesList.size() + " found" : "Searching");
+                                        Map<String, Object> setMatch = new HashMap<>();
+                                        setMatch.put("matched", true);
+//                                        mFirestore.collection("users").document(doc.getDocument().getString("user_id")).set(setMatch, SetOptions.merge());
                                         showLobby();
                                     }
                                     else if (!doc.getDocument().getBoolean("online")){

@@ -120,16 +120,32 @@
         </LinearLayout>
 
         <ImageView
+            android:layout_marginVertical="40dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:id="@+id/idImage"
-            android:layout_margin="20dp"
+            android:layout_marginHorizontal="20dp"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
 
     </RelativeLayout>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/btLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:text="Log Out"
+        android:textAllCaps="false"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textStyle="bold" />
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profileImage"

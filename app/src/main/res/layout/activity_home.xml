@@ -37,6 +37,16 @@
             android:hint="Search"
             android:maxLines="1" />
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/homeDP"
+            android:layout_marginVertical="4dp"
+            android:layout_marginRight="3dp"
+            android:src="@drawable/profile_placeholder"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+
     </RelativeLayout>
 
     <TextView

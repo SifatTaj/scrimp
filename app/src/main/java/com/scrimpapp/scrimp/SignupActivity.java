@@ -2,6 +2,8 @@ package com.scrimpapp.scrimp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.scrimpapp.scrimp.model.User;
 
 import java.util.HashMap;
@@ -31,6 +34,7 @@ public class SignupActivity extends AppCompatActivity {
     Button btSignUp;
 
     FirebaseAuth mAuth;
+    FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,11 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        firestore.setFirestoreSettings(settings);
 
     }
 
@@ -135,14 +144,17 @@ public class SignupActivity extends AppCompatActivity {
                             userMap.put("email", email);
                             userMap.put("phone", phone);
                             userMap.put("bracu_id", bracuId);
+                            userMap.put("user_id", task.getResult().getUser().getUid());
 
                             FirebaseFirestore.getInstance().collection("users")
                                     .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(userMap)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful())
+                                    if(task.isSuccessful()) {
                                         Toast.makeText(SignupActivity.this, "Account successfully created", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(SignupActivity.this, UploadPicActivity.class));
+                                    }
                                 }
                             });
                         }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UploadIdActivity">
+
+    <Button
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/button_choose_image2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/button_background"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="Select"
+        android:textAllCaps="false"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textStyle="bold" />
+
+    <TextView
+        android:paddingVertical="10dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:text="Please upload a picture of your BRACU ID card"
+        android:id="@+id/edit_text_file_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:hint="Enter file name" />
+
+    <ImageView
+        android:id="@+id/image_view2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/progress_bar2"
+        android:layout_below="@id/edit_text_file_name"
+        android:layout_marginTop="16dp" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar2"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_upload2"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/button_upload2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/button_background"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="Upload"
+        android:textAllCaps="false"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textStyle="bold" />
+
+    <Button
+        android:background="@null"
+        android:id="@+id/btNext2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_upload2"
+        android:layout_alignTop="@+id/button_upload2"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@+id/button_upload2"
+        android:gravity="center"
+        android:text="Skip"
+        android:textSize="16sp" />
+
+</RelativeLayout>
