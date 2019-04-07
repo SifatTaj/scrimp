@@ -56,6 +56,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         String currentUserId = mAuth.getCurrentUser().getUid();
 
+        if(userId != currentUserId) {
+            btLogout.setVisibility(View.GONE);
+        }
+
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

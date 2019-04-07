@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.scrimpapp.scrimp.R;
+import com.scrimpapp.scrimp.UserProfileActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,7 +60,9 @@ public class ResultDialog extends AppCompatDialogFragment {
                 .setAdapter(HomeActivity.lobbyListAdapter, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+                        intent.putExtra("userId", HomeActivity.matchesList.get(which));
+                        startActivity(intent);
                     }
                 });
 

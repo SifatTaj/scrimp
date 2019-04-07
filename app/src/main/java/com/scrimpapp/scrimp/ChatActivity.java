@@ -137,8 +137,9 @@ public class ChatActivity extends AppCompatActivity {
                                     for (; i <= documentSnapshot.getData().size(); ++i) {
                                         Log.e("data", "" + documentSnapshot.getData());
                                         String msg = documentSnapshot.getString(i + ".msg");
+                                        String user = documentSnapshot.getString(i + ".user_id");
                                         String name = documentSnapshot.getString(i + ".name");
-                                        chatInfos.add(new ChatInfo(msg, "", name, false));
+                                        chatInfos.add(new ChatInfo(msg, "", name, user.equalsIgnoreCase(userId)));
                                         chatBubbleAdapter.notifyDataSetChanged();
                                     }
                                 }
