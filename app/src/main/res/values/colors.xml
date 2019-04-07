@@ -4,7 +4,7 @@
     <color name="white">#FFFFFF</color>
     <color name="colorPrimaryDark">#292b3d</color>
     <color name="grayLight">#fafafa</color>
-    <color name="startBlue">#09c6df</color>
+    <color name="startBlue">#003366</color>
     <color name="endBlue">#0bcce6</color>
     <color name="colorAccent">#FF4081</color>
 </resources>

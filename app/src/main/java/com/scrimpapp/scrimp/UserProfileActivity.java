@@ -5,6 +5,7 @@ import com.scrimpapp.scrimp.util.DpLoader;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,9 +57,18 @@ public class UserProfileActivity extends AppCompatActivity {
 
         String currentUserId = mAuth.getCurrentUser().getUid();
 
-        if(userId != currentUserId) {
+        if(!currentUserId.equals(userId)) {
             btLogout.setVisibility(View.GONE);
         }
+
+        tvPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:0123456789"));
+                startActivity(intent);
+            }
+        });
 
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override

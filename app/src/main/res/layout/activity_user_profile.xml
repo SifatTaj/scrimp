@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
                     android:text="Loading..."
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/startBlue"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
