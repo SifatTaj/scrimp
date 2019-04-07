@@ -1,6 +1,8 @@
 package com.scrimpapp.scrimp;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,9 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,6 +42,7 @@ import com.scrimpapp.scrimp.util.DpLoader;
 import com.scrimpapp.scrimp.util.LobbyListAdapter;
 import com.scrimpapp.scrimp.util.ResultDialog;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +57,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView tvLatLng, tvMatches;
     private Button btSetDest;
     private CircleImageView homeDP;
+    private EditText searchBar;
 
     private LottieAnimationView rippleAnimation;
     private LottieAnimationView searchingAnimation;
@@ -84,6 +92,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         tvLatLng = findViewById(R.id.tvLatLng);
         tvMatches = findViewById(R.id.tvNoOfMatches);
         btSetDest = findViewById(R.id.btSetDest);
+        searchBar = findViewById(R.id.searchBar);
         rippleAnimation = findViewById(R.id.ripple_animation);
         searchingAnimation = findViewById(R.id.search_animation);
         homeDP = findViewById(R.id.homeDP);
@@ -126,6 +135,37 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 showLobby();
+            }
+        });
+
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        | actionId == EditorInfo.IME_ACTION_DONE) {
+                    String searchString = searchBar.getText().toString();
+                    Geocoder geocoder = new Geocoder(HomeActivity.this);
+                    List<Address> addresses = new ArrayList<>();
+                    searchBar.setText("");
+                    try {
+                        addresses = geocoder.getFromLocationName(searchString, 1);
+                    }catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
+
+                    if(addresses.size() > 0) {
+                        Address address = addresses.get(0);
+                        Log.e("result", "onEditorAction: " + address.getLatitude());
+                        LatLng result = new LatLng(address.getLatitude(), address.getLongitude());
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(result, 15F));
+                    }
+
+                    else {
+                        Toast.makeText(getApplicationContext(), "No result found", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                return false;
             }
         });
 

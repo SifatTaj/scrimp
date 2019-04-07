@@ -22,6 +22,7 @@
         android:background="@drawable/text_input_border">
 
         <ImageView
+            android:id="@+id/iconSearch"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
@@ -29,6 +30,9 @@
             app:srcCompat="@drawable/ic_action_search" />
 
         <EditText
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
