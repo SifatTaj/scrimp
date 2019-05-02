@@ -120,13 +120,14 @@ public class ChatActivity extends AppCompatActivity {
                         });
                     }
                     else {
+                        String newChatRoomId = numbGen();
                         Map<String, Object> empty = new HashMap<>();
-                        firestore.collection("chat").document(userId).set(empty);
-                        chatDoc = firestore.collection("chat").document(userId);
+                        firestore.collection("chat").document(newChatRoomId).set(empty);
+                        chatDoc = firestore.collection("chat").document(newChatRoomId);
 
                         for(String member : membersId) {
                             Map<String, Object> data = new HashMap<>();
-                            data.put("chat_room", userId);
+                            data.put("chat_room", newChatRoomId);
                             firestore.collection("users").document(member).set(data, SetOptions.merge());
                         }
 
@@ -150,5 +151,13 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static String numbGen() {
+        while (true) {
+            long numb = (long)(Math.random() * 100000000 * 1000000); // had to use this as int's are to small for a 13 digit number.
+            if (String.valueOf(numb).length() == 13)
+                return "" + numb;
+        }
     }
 }
