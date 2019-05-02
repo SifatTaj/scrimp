@@ -23,10 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="20">
 
             <LinearLayout
-                android:layout_weight="2"
+                android:layout_weight="14.5"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -35,7 +35,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     android:paddingBottom="10dp"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Name  "/>
@@ -44,7 +44,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     android:paddingBottom="10dp"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Phone  "/>
@@ -53,7 +53,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     android:paddingBottom="10dp"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Email  "/>
@@ -62,7 +62,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
                     android:paddingBottom="10dp"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="BRACU ID  "/>
@@ -70,7 +70,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -82,7 +81,7 @@
                     android:paddingBottom="10dp"
                     android:text="Loading..."
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -92,7 +91,7 @@
                     android:paddingBottom="10dp"
                     android:text="Loading..."
                     android:textColor="@color/startBlue"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -102,7 +101,7 @@
                     android:paddingBottom="10dp"
                     android:text="Loading..."
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -112,7 +111,7 @@
                     android:paddingBottom="10dp"
                     android:text="Loading..."
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -127,7 +126,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             />
 
     </RelativeLayout>
