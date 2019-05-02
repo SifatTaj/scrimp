@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText etBracuId;
     EditText etName;
     Button btSignUp;
+    ProgressBar progressBar;
 
     FirebaseAuth mAuth;
     FirebaseFirestore firestore;
@@ -47,6 +49,7 @@ public class SignupActivity extends AppCompatActivity {
         etConPass = findViewById(R.id.etConfirmPassword);
         etBracuId = findViewById(R.id.etBracuId);
         etName = findViewById(R.id.etName);
+        progressBar = findViewById(R.id.signupLoading);
 
         btSignUp = findViewById(R.id.btSignUp);
         btSignUp.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +130,8 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
+
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
                 new OnCompleteListener<AuthResult>() {
                     @Override
@@ -157,10 +162,12 @@ public class SignupActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                            progressBar.setVisibility(View.GONE);
                         }
                         else if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                             etEmail.setError(getString(R.string.input_error_email_already_registered));
                             etEmail.requestFocus();
+                            progressBar.setVisibility(View.GONE);
                             return;
                         }
                     }
